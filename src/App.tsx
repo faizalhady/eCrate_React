@@ -11,17 +11,25 @@ import { LogTestRoute } from "@/routes/LogTestRoute";
 import { ServiceTestRoute } from "@/routes/ServiceTestRoute";
 
 import NotFoundPage from "@/pages/error/NotFoundPage";
+import MainLayout from "./layouts/MainLayout";
 
 // Combine route objects
 const router = createBrowserRouter([
-  HomeRoute,
-  AuthTestRoute,
-  CrateTestRoute,
-  DataTestRoute,
-  HistoryTestRoute,
-  LogTestRoute,
-  ServiceTestRoute,
-  { path: "*", element: <NotFoundPage /> },
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      HomeRoute,
+      AuthTestRoute,
+      CrateTestRoute,
+      DataTestRoute,
+      HistoryTestRoute,
+      LogTestRoute,
+      ServiceTestRoute,
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
+
 ]);
 
 export default function App() {
