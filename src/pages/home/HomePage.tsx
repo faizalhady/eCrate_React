@@ -1,32 +1,46 @@
+import React from "react";
 import { Link } from "react-router-dom";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-gray-800">
-      <h1 className="text-3xl font-bold mb-4">Welcome to eST1C API Tester</h1>
-      <p className="mb-6 text-center text-gray-600">
-        This workspace is designed to test and visualize API connections for the eST1C project.<br />
-        Select one of the available API modules below to begin testing.
-      </p>
+    <div className="flex items-center justify-center min-h-screen p-6">
+      <Card className="max-w-2xl w-full">
+        <CardHeader>
+          <CardTitle className="text-3xl">Welcome to eCrate API Tester</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <p className="text-sm text-muted-foreground text-center">
+            A lightweight workspace to test and visualize eCrate APIs. Select a tester below to begin.
+          </p>
 
-      <div className="space-y-3">
-        <Link
-          to="/auth-test"
-          className="block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg shadow-sm"
-        >
-          Auth API Tester
-        </Link>
-        <Link
-          to="/crate-test"
-          className="block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg text-lg shadow-sm"
-        >
-          Crate API Tester
-        </Link>
-      </div>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button asChild>
+              <Link to="/auth-test">Auth API Tester</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/crate-test">Crate API Tester</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/data-test">Data API Tester</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/history-test">History API Tester</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/log-test">Log API Tester</Link>
+            </Button>
+            <Button asChild>
+              <Link to="/service-test">Service API Tester</Link>
+            </Button>
+          </div>
 
-      <footer className="mt-10 text-sm text-gray-400">
-        © {new Date().getFullYear()} eST1C | Internal API Playground
-      </footer>
+          <footer className="text-center text-xs text-muted-foreground mt-4">
+            © {new Date().getFullYear()} eCrate | Internal API Playground
+          </footer>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,16 +1,27 @@
 import { Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
+// Route imports
+import { HomeRoute } from "@/routes/HomeRoutes";
 import { AuthTestRoute } from "@/routes/AuthTestRoute";
 import { CrateTestRoute } from "@/routes/CrateTestRoute";
-import { HomeRoute } from "./routes/HomeRoutes";
-import NotFoundPage from "./pages/error/NotFounfPage";
+import { DataTestRoute } from "@/routes/DataTestRoute";
+import { HistoryTestRoute } from "@/routes/HistoryTestRoute";
+import { LogTestRoute } from "@/routes/LogTestRoute";
+import { ServiceTestRoute } from "@/routes/ServiceTestRoute";
+
+import NotFoundPage from "@/pages/error/NotFoundPage";
 
 // Combine route objects
 const router = createBrowserRouter([
   HomeRoute,
-  AuthTestRoute, 
+  AuthTestRoute,
   CrateTestRoute,
-   { path: "*", element: <NotFoundPage /> },
+  DataTestRoute,
+  HistoryTestRoute,
+  LogTestRoute,
+  ServiceTestRoute,
+  { path: "*", element: <NotFoundPage /> },
 ]);
 
 export default function App() {
