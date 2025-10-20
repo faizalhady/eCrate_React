@@ -20,7 +20,7 @@ export default function DashboardPage() {
           <Separator />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <Button asChild>
+            <Button>
               <Link to="/auth-test">Auth API Tester</Link>
             </Button>
             <Button asChild>
