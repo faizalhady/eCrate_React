@@ -1,5 +1,7 @@
+// src/App.tsx
 import { Suspense } from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import AppLayout from "@/layouts/AppLayout";
 
 // Route imports
 import { HomeRoute } from "@/routes/HomeRoutes";
@@ -9,19 +11,24 @@ import { DataTestRoute } from "@/routes/DataTestRoute";
 import { HistoryTestRoute } from "@/routes/HistoryTestRoute";
 import { LogTestRoute } from "@/routes/LogTestRoute";
 import { ServiceTestRoute } from "@/routes/ServiceTestRoute";
-
 import NotFoundPage from "@/pages/error/NotFoundPage";
 
-// Combine route objects
+// Router setup
 const router = createBrowserRouter([
-  HomeRoute,
-  AuthTestRoute,
-  CrateTestRoute,
-  DataTestRoute,
-  HistoryTestRoute,
-  LogTestRoute,
-  ServiceTestRoute,
-  { path: "*", element: <NotFoundPage /> },
+  {
+    path: "/", // persistent layout
+    element: <AppLayout />,
+    children: [
+      HomeRoute,
+      AuthTestRoute,
+      CrateTestRoute,
+      DataTestRoute,
+      HistoryTestRoute,
+      LogTestRoute,
+      ServiceTestRoute,
+      { path: "*", element: <NotFoundPage /> },
+    ],
+  },
 ]);
 
 export default function App() {

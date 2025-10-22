@@ -1,13 +1,25 @@
-import * as React from "react"
-import { ChevronRight } from "lucide-react"
+// src/components/app-sidebar.tsx
+import * as React from "react";
+import {
+  ChevronRight,
+  Home,
+  Box,
+  History,
+  FileCog,
+  Database,
+  Server,
+  KeyRound,
+  Settings,
+} from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
+import { SearchForm } from "@/components/search-form";
+import { VersionSwitcher } from "@/components/version-switcher";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from "@/components/ui/collapsible";
 import {
   Sidebar,
   SidebarContent,
@@ -19,189 +31,93 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-// This is sample data.
-const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Building Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Community",
-      url: "#",
-      items: [
-        {
-          title: "Contribution Guide",
-          url: "#",
-        },
-      ],
-    },
-  ],
-}
+// -------------------------------------------------------------
+// NAVIGATION STRUCTURE — grouped by category (no parent icons)
+// -------------------------------------------------------------
+const navStructure = [
+  {
+    title: "Main",
+    items: [{ title: "Dashboard", path: "/", icon: Home }],
+  },
+  {
+    title: "API Testing",
+    items: [
+      { title: "Crate Test", path: "/crate-test", icon: Box },
+      { title: "History Test", path: "/history-test", icon: History },
+      { title: "Log Test", path: "/log-test", icon: Database },
+      { title: "Service Test", path: "/service-test", icon: Server },
+      { title: "Data Test", path: "/data-test", icon: FileCog },
+      { title: "Auth Test", path: "/auth-test", icon: KeyRound },
+    ],
+  },
+  {
+    title: "System",
+    items: [{ title: "Settings", path: "#", icon: Settings }],
+  },
+];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+// -------------------------------------------------------------
+// SIDEBAR COMPONENT
+// -------------------------------------------------------------
+export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <Sidebar {...props}>
+      {/* HEADER */}
       <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
+        <VersionSwitcher versions={["1.0.1", "2.0.0"]} defaultVersion="1.0.1" />
         <SearchForm />
       </SidebarHeader>
+
+      {/* SIDEBAR CONTENT */}
       <SidebarContent className="gap-0">
-        {/* We create a collapsible SidebarGroup for each parent. */}
-        {data.navMain.map((item) => (
+        {navStructure.map((section) => (
           <Collapsible
-            key={item.title}
-            title={item.title}
+            key={section.title}
+            title={section.title}
             defaultOpen
             className="group/collapsible"
           >
             <SidebarGroup>
+              {/* GROUP TITLE */}
               <SidebarGroupLabel
                 asChild
                 className="group/label text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-sm"
               >
                 <CollapsibleTrigger>
-                  {item.title}{" "}
+                  {section.title}
                   <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
+
+              {/* CHILD ITEMS */}
               <CollapsibleContent>
                 <SidebarGroupContent>
                   <SidebarMenu>
-                    {item.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton asChild isActive={item.isActive}>
-                          <a href={item.url}>{item.title}</a>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
+                    {section.items.map((item) => {
+                      const isActive = location.pathname === item.path;
+                      return (
+                        <SidebarMenuItem key={item.title}>
+                          <SidebarMenuButton
+                            asChild
+                            isActive={isActive}
+                            onClick={() =>
+                              item.path !== "#" ? navigate(item.path) : null
+                            }
+                            className="pl-6" // 👈 Slight indent for hierarchy
+                          >
+                            <button className="flex w-full items-center gap-2 text-left">
+                              <item.icon className="h-4 w-4 opacity-80" />
+                              <span>{item.title}</span>
+                            </button>
+                          </SidebarMenuButton>
+                        </SidebarMenuItem>
+                      );
+                    })}
                   </SidebarMenu>
                 </SidebarGroupContent>
               </CollapsibleContent>
@@ -209,7 +125,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </Collapsible>
         ))}
       </SidebarContent>
+
       <SidebarRail />
     </Sidebar>
-  )
+  );
 }
